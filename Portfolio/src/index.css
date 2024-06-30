@@ -125,6 +125,12 @@
   animation: mulShdSpin 1.1s infinite ease;
   transform: translateZ(0);
 }
+.blue-gradient {
+  background: #129eaf; /* start color */
+  background: linear-gradient(-90deg, #129eaf 0%, rgba(0, 0, 255, 0) 100%);
+  background: -webkit-linear-gradient(-90deg, #129eaf 0%, rgba(0, 0, 255, 0) 100%);
+}
+
 
 @keyframes mulShdSpin {
   0%,
