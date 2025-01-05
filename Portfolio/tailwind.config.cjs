@@ -16,7 +16,12 @@ module.exports = {
         card: "0px 35px 120px -15px #211e35",
       },
       screens: {
-        xs: "450px",
+        xs: "450px", // Custom xs breakpoint
+        sm: "640px", // Default sm breakpoint
+        md: "768px", // Default md breakpoint
+        lg: "1024px", // Default lg breakpoint
+        xl: "1280px", // Default xl breakpoint
+        "2xl": "1536px", // Default 2xl breakpoint
       },
       backgroundImage: {
         "hero-pattern": "url('/src/assets/herobg.png')",
