@@ -4,32 +4,6 @@ import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
 import CanvasLoader from "../Loader";
 
-const Computers = ({ isMobile }) => {
-  const computer = useGLTF("./desktop_pc/scene.gltf");
-
-  return (
-    <mesh>
-      <hemisphereLight intensity={0.15} groundColor="black" />
-      <spotLight
-        position={[-20, 50, 10]}
-        angle={0.12}
-        penumbra={1}
-        intensity={1}
-        castShadow
-        shadow-mapSize={1024}
-      />
-      <pointLight intensity={1} />
-      <primitive
-        object={computer.scene}
-        scale={isMobile ? 0.7 : 0.75}
-        position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
-        rotation={[-0.01, -0.2, -0.1]}
-      />
-    </mesh>
-  );
-};
-
-// ComputersCanvas.jsx
 const ComputersCanvas = () => {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -58,21 +32,50 @@ const ComputersCanvas = () => {
       style={{
         height: '100%',
         width: '100%',
-        touchAction: 'none' // Prevents default touch behaviors
+        position: 'absolute',
+        pointerEvents: isMobile ? 'none' : 'auto', // Completely disable interactions on mobile
+        touchAction: 'none'
       }}
     >
       <Suspense fallback={<CanvasLoader />}>
-        <OrbitControls
-          enableZoom={false}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-          enablePan={false}
-        />
+        {!isMobile && ( // Only render OrbitControls on desktop
+          <OrbitControls
+            enableZoom={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
+            enablePan={false}
+          />
+        )}
         <Computers isMobile={isMobile} />
       </Suspense>
-
       <Preload all />
     </Canvas>
+  );
+};
+
+// In your Computers component, adjust the mobile position:
+const Computers = ({ isMobile }) => {
+  const computer = useGLTF("./desktop_pc/scene.gltf");
+
+  return (
+    <mesh>
+      <hemisphereLight intensity={0.15} groundColor="black" />
+      <spotLight
+        position={[-20, 50, 10]}
+        angle={0.12}
+        penumbra={1}
+        intensity={1}
+        castShadow
+        shadow-mapSize={1024}
+      />
+      <pointLight intensity={1} />
+      <primitive
+        object={computer.scene}
+        scale={isMobile ? 0.5 : 0.75} // Reduced scale for mobile
+        position={isMobile ? [0, -2.5, -1.5] : [0, -3.25, -1.5]} // Adjusted position for mobile
+        rotation={[-0.01, -0.2, -0.1]}
+      />
+    </mesh>
   );
 };
 
