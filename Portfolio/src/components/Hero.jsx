@@ -1,10 +1,31 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { styles } from "../style";
 import { ComputersCanvas } from "./canvas";
+import Typed from "typed.js";
 
 const Hero = () => {
-  // Determine screen size using a media query hook (optional)
-  const isMobile = window.innerWidth <= 768; // Example breakpoint for mobile
+  const isMobile = window.innerWidth <= 768;
+  const typedElement = useRef(null); 
+
+  useEffect(() => {
+    const options = {
+      strings: [
+        "Hello! <span class='text-[#129eaf]'>I am Himanshi</span>" // Apply blue color here
+      ],
+      typeSpeed: 100,
+      backSpeed: 100,
+      loop: true,
+      showCursor: true,
+      cursorChar: "|",
+      contentType: 'html', 
+    };
+
+    const typed = new Typed(typedElement.current, options);
+
+    return () => {
+      typed.destroy();
+    };
+  }, []);
 
   return (
     <section className={`relative w-full h-screen mx-auto`}>
@@ -18,7 +39,7 @@ const Hero = () => {
 
         <div>
           <h1 className={`${styles.heroHeadText} text-white`}>
-            Hello!<span className="text-[#129eaf]">Himanshi this side</span>
+            <span ref={typedElement} /> {/* Attach the typing effect */}
           </h1>
           <p className={`${styles.heroSubText} mt-2 text-white-100`}>
             I am a Software developer <br className="sm:block hidden" />
@@ -26,7 +47,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Pass a size prop to adjust the model for mobile */}
       <ComputersCanvas scale={isMobile ? 0.7 : 1} />
     </section>
   );
